@@ -1,8 +1,9 @@
 #include<iostream>
 #include<fstream>
+#include<unordered_map>
 #define MAX 100 // maximum height of huffman tree
 using namespace std;
-
+unordered_map<string, int>CodeMap;
 struct Node
 {
     char data;
@@ -131,9 +132,13 @@ Node* buildHuffmanTree(char carr[], int freq_arr[], int size)
 void printArr(int arr[], int n)
 {
 	int i;
+    string value, temp_val;
 	for (i = 0; i < n; ++i)
-		cout << arr[i];
-
+	{
+        cout << arr[i];
+        temp_val=arr[i];
+        value.append(temp_val);
+    }
 	cout << "\n";
 }
 
@@ -154,7 +159,7 @@ void printCodes(struct Node* root, int arr[],
 
 	// If this is a leaf node, then it contains one of the input characters, print the character and its code from arr[]
 	if (!root->left && !root->right) {
-
+        CodeMap.emplace(root->data);
 		cout << root->data << ": ";
         printArr(arr, top);
 	}
