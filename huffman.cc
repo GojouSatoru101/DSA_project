@@ -168,8 +168,8 @@ void Huffman_Code(char carr[], int freq_arr[], int size)
 
 int main()
 {   
-    // string str = "Yoooo what da hellll oohh my gawwdd";
-    ifstream file("test.txt");
+    ifstream file;
+    file.open("test.txt");
     string str;
     int counter[256] = {0};
 
@@ -189,10 +189,19 @@ int main()
         }
     }
     Huffman_Code(carr, freq, count);
-    cout<<"\nChecking map!!"<<endl;
-    for (const auto& pair : CodeMap) {
-        cout << pair.first << ": " << pair.second <<endl;
-    // string codeForA = CodeMap['a'];
-    // cout << "Code for 'a': " << codeForA << endl;
-}
+    string encodedStr;
+    for (const auto& ch : str) 
+    {
+        auto it = CodeMap.find(ch); // Here 'it' variable points to the element(std::pair object) in the 'CodeMap' that has 'ch' as its key if the .find function doesn't return CodeMap.end()        
+        if (it != CodeMap.end())  // if key is not present in map there is no corresponding huffman code either
+        {
+            encodedStr += it->second;  // Since 'it' points to key-value pair object it->second can access value
+        }
+    }
+    file.close();
+    cout<<encodedStr<<endl;
+    ofstream outfile;
+    outfile.open("compressed_test.txt");
+    outfile<<encodedStr;
+    outfile.close();
 }
